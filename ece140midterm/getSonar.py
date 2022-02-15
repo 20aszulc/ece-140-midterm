@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import RPi.GPIO as GPIO
+from init_db import *
 import time
 
+buttonPin = 14
 trigPin = 23
 echoPin = 24
 MAX_DISTANCE = 220  # define maximum measuring distance, unit: cm
@@ -37,7 +39,19 @@ def setup():
     GPIO.setup(echoPin, GPIO.IN)  # set echoPin to INPUT mode
     GPIO.setup(buzzerPin, GPIO.OUT)
     GPIO.setmode(GPIO.BCM)
-    GPIO.setup(LED_PIN, GPIO.OUT)
+
+    GPIO.setup(LED_PIN, GPIO.OUT) #set LED to OUTPUT mode
+    GPIO.setup(buttonPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # set buttonPin to INPUT mode
+
+
+def sendDataToServer(distance, buttonPress, time):
+    cursor.execute("""INSERT INTO Sensor_Data (motion_sensor, second_sensor, atTime) VALUES 
+                   ('%d', '%d', '%d');""" %(int(distance), buttonPress, time))
+    #print out most recent data:
+    cursor.execute("""SELECT * FROM TableName WHERE id=(SELECT max(id) FROM TableName);""")
+    result = cursor.fetchone()
+    print('---SELECT---')
+    [print(x) for x in result]
 
 def lightUpLed():
     GPIO.output(LED_PIN, GPIO.HIGH)
@@ -61,8 +75,11 @@ def Buzzer(distance):
 def loop():
     while (True):
         distance = getSonar()  # get distance
+        buttonPress = GPIO.input(buttonPin)
         print("The distance is : %.2f cm" % (distance))
+        print("The buton is %s" % (str(buttonPress==GPIO.HIGH)))
         Buzzer(distance)
+        sendDataToServer(distance, buttonPress, time)
         time.sleep(1)
 
 

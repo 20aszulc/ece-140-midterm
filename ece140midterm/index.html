@@ -13,6 +13,54 @@
     <input type="button" value="BuzzMe" onclick="click_buzz()">
       <input type="button" value="Light Up" onclick="click_LED()">
 
+     <label>A Few Seconds to Choose A Data Input</label>
+    <form>
+      <label for="aTimeRank">Get a sensor input in the first _ to _ seconds</label>
+      <select name="aTimeRank" id="aTimeRank">
+          <option>   </option>
+        <option value=5>0-5</option>
+        <option value=10>5-10</option>
+        <option value=15>10-15</option>
+      </select>
+    </form>
+    <label>Furthest Distances</label>
+    <form>
+        <label for="aDistance">Top distances</label>
+        <select name="aDistance" id="aDistance">
+            <option> </option>
+          <option value=1>1</option>
+          <option value=2>2</option>
+          <option value=3>3</option>
+            <option value=4>4</option>
+            <option value=5>5</option>
+        </select>
+      </form>
+
+     <input type="button" value="Submit Search" onclick="distance_range(); time_rank();distance_range();">
+
+
+    <p>Searched Data</p>
+      <div>
+      <br>
+      <div id="error"></div>
+      <br>
+        <div id="id"> ID:  </div>
+      <div id="motion_sensor"> Motion Sensor:  </div>
+      <div id="button_press"> Button Press: </div>
+      <div id="time"> Time: </div>
+    </div>
+
+    <p>Most Recent</p>
+      <div>
+      <br>
+      <div id="error2"></div>
+      <br>
+        <div id="id2"> ID:  </div>
+      <div id="motion_sensor2"> Motion Sensor:  </div>
+      <div id="button_press2"> Button Press: </div>
+      <div id="time2"> Time: </div>
+    </div>
+
     <script type="text/javascript" src="rest.js"></script>
   </body>
 </html>
