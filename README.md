@@ -1,3 +1,3 @@
 # ece-140-midterm
 
-hey mike
+![Lab 5 Tutorial 3 on Pi](./public/media/Lab5Tutorial3.gif)
