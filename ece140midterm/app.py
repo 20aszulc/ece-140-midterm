@@ -2,108 +2,132 @@ from wsgiref.simple_server import make_server
 from pyramid.config import Configurator
 from pyramid.response import Response, FileResponse
 import mysql.connector as mysql
-from getSonar import *
-from init_db import *
+#from init_db import *
+#from randomTest import *
+from datetime import datetime
 from dotenv import load_dotenv
 import os
 import numpy as np
 import cv2
 ledOn = 0
 buzzerOn = 0
-time_id = 0
-distance_id = 0
+time_id = ""
+distance_id = ""
 
-''''
+
+
+
+
 load_dotenv('credentials.env')
 
- #Environment Variables 
+ #Environment Variables
 db_host = os.environ['MYSQL_HOST']
 db_user = os.environ['MYSQL_USER']
 db_pass = os.environ['MYSQL_PASSWORD']
 db_name = os.environ['MYSQL_DATABASE']
-'''
 def index_page(request):
    return FileResponse('index.html')
 
 
-def buzz():
+def buzzIt(req):
     global buzzerOn
     print("recieved")
     if(0 == buzzerOn):
          startBuzz()
+         buzzerOn = 1
     else:
         stopBuzz()
+        buzzerOn = 0
 
-def led():
+def ledIt(req):
     global ledOn
     print("receved led")
     if (ledOn == 0):
         lightUpLed()
+        ledOn=1
     else:
         turnOffLed()
+        ledOn = 0
+
 
 def check_range(distance_id2, time_id2):
     db = mysql.connect(host=db_host, user=db_user, passwd=db_pass, database=db_name)
     cursor = db.cursor()
     cursor.execute(
         """"SELECT id, motion_sensor, second_sensor, atTime 
-        FROM Midterm 
-        WHERE time>='%d' AND time <'%d'
-        AND '%d'=(SELECT COUNT(DISTINCT motion_sensor) 
-                        FROM Midterm p
-                        WHERE e.motion_sensor<=p.motion_sensor);""" % ((time_id2), time_id2+5, distance_id2))
-
+        FROM Sensor_Data e
+           WHERE '%d'=(SELECT COUNT(DISTINCT atTime) 
+                        FROM Sensor_Data p
+                        WHERE e.atTime<=p.atTime)
+            AND '%d'=(SELECT COUNT(DISTINCT motion_sensor) 
+                        FROM Sensor_Data p
+                        WHERE e.motion_sensor<=p.motion_sensor);""" % (time_id2, distance_id2))
     record = cursor.fetchone()
+    if record is None:
+        cursor.execute(
+            """"SELECT id, motion_sensor, second_sensor, atTime 
+            FROM Sensor_Data e
+               WHERE '%d'>(SELECT COUNT(DISTINCT atTime) 
+                            FROM Sensor_Data p
+                            WHERE e.atTime<=p.atTime)
+                AND '%d' =(SELECT COUNT(DISTINCT motion_sensor) 
+                            FROM Sensor_Data p
+                            WHERE e.motion_sensor<=p.motion_sensor);""" % (time_id2, distance_id2))
+        record = cursor.fetchone()
     db.close()
     return record
-
 
 def get_time_rank(req):
   global time_id
   global distance_id
-  #get the id from the request
-  time_id = req.matchdict['time_rank_id']
-  #connect to the database
+  print("time")
   db = mysql.connect(host=db_host, user=db_user, passwd=db_pass, database=db_name)
   cursor = db.cursor()
-
+  #get the id from the request
+  time_id = req.matchdict['time_rank_id']
   #query the database with the id
-  id2 = int(time_id)-5
+  id2 = int(time_id)
   if distance_id is not "":
-      distance_id2 = int(distance_id)
-      record = check_range(distance_id2, id2)
+      record = check_range(distance_id, id2)
   else:
-      cursor.execute( "SELECT id, motion_sensor, second_sensor, atTime FROM Midterm WHERE time>='%d' AND time <'%d';" % ((id2), id2+5))
+      cursor.execute(
+          """SELECT id, motion_sensor, second_sensor, atTime 
+          FROM Sensor_Data e
+           WHERE '%d'=(SELECT COUNT(DISTINCT atTime) 
+                        FROM Sensor_Data p
+                        WHERE e.atTime<=p.atTime);""" % (id2))
       record = cursor.fetchone()
-      db.close()
+  print(record)
+  print("timeRecord")
+  db.close()
+  time_id = ""
   distance_id = ""
   return set_record(record)
 
 def get_distance_range(req):
   global time_id
   global distance_id
+  db = mysql.connect(host=db_host, user=db_user, passwd=db_pass, database=db_name)
+  cursor = db.cursor()
     #get the id from the request
   distance_id = req.matchdict['distance_range_id']
   #connect to the database
-  db = mysql.connect(host=db_host, user=db_user, passwd=db_pass, database=db_name)
-  cursor = db.cursor()
-
   id2 = int(distance_id)
-  #query the database with the id
   if time_id is not "":
-      time_id2 = int(time_id) - 5
-      record = check_range(id2, time_id2)
-  else:
+      record = check_range(id2, time_id)
+  else: #works!!!!
       cursor.execute(
           """SELECT id, motion_sensor, second_sensor, atTime 
-          FROM Midterm e
+          FROM Sensor_Data e
            WHERE '%d'=(SELECT COUNT(DISTINCT motion_sensor) 
-                        FROM Midterm p
+                        FROM Sensor_Data p
                         WHERE e.motion_sensor<=p.motion_sensor);""" % (id2))
+
       record = cursor.fetchone()
-      db.close()
+  db.close()
 
   time_id = ""
+  distance_id = ""
   return set_record(record)
 
 
@@ -130,7 +154,7 @@ def set_record(record):
 
 
 if __name__ == '__main__':
-      exec("init_db.py")
+      #exec("randomTest.py")
       with Configurator() as config:
 
         # Create a route called home
@@ -144,11 +168,11 @@ if __name__ == '__main__':
         config.add_route('get_time_rank', '/time_rank/{time_rank_id}')
         config.add_view(get_time_rank, route_name='get_time_rank', renderer='json')
 
-        config.add_route('buzz','/buzz')
-        config.add_view(buzz, route_name='buzz', renderer='json')
+        config.add_route('buzzIt','/buzzIt/')
+        config.add_view(buzzIt, route_name='buzzIt', renderer='json')
 
-        config.add_route('led', '/led')
-        config.add_view(led, route_name='led', renderer='json')
+        config.add_route('ledIt', '/ledIt/')
+        config.add_view(ledIt, route_name='ledIt', renderer='json')
 
         config.add_static_view(name='/', path='./public', cache_max_age=3600)
         app = config.make_wsgi_app()

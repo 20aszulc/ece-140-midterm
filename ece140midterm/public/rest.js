@@ -1,11 +1,13 @@
 function click_buzz(){
-    let theURL = '/buzz';
+    let theURL = '/buzzIt/';
     console.log("Starting executing buzz");
+    fetch(theURL)
 }
 
 function click_led(){
-    let theURL = '/led';
+    let theURL = '/ledIt/';
     console.log("Starting executing led");
+    fetch(theURL)
 }
 
 
