@@ -2,13 +2,13 @@ from wsgiref.simple_server import make_server
 from pyramid.config import Configurator
 from pyramid.response import Response, FileResponse
 import mysql.connector as mysql
-#from init_db import *
-#from randomTest import *
+from getSonar import *
 from datetime import datetime
 from dotenv import load_dotenv
 import os
 import numpy as np
-import cv2
+
+
 ledOn = 0
 buzzerOn = 0
 time_id = ""
@@ -18,15 +18,17 @@ distance_id = ""
 
 
 
-load_dotenv('credentials.env')
+load_dotenv()
 
  #Environment Variables
 db_host = os.environ['MYSQL_HOST']
 db_user = os.environ['MYSQL_USER']
 db_pass = os.environ['MYSQL_PASSWORD']
 db_name = os.environ['MYSQL_DATABASE']
+
+
 def index_page(request):
-   return FileResponse('index.html')
+   return FileResponse('/home/pi/Documents/ece-140-midterm/ece140midterm/index.html')
 
 
 def buzzIt(req):
@@ -179,4 +181,9 @@ if __name__ == '__main__':
 
 server = make_server('0.0.0.0', 6543, app)
 print('Web server started on: http://0.0.0.0:6543')
-server.serve_forever()
+try:
+  setup()
+  loop()
+  server.serve_forever()
+except KeyboardInterrupt:
+  GPIO.cleanup()

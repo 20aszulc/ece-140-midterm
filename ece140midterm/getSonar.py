@@ -2,8 +2,9 @@
 import RPi.GPIO as GPIO
 from init_db import *
 import time
+from datetime import datetime
 
-buttonPin = 14
+buttonPin = 22
 trigPin = 23
 echoPin = 24
 MAX_DISTANCE = 220  # define maximum measuring distance, unit: cm
@@ -41,17 +42,22 @@ def setup():
     GPIO.setmode(GPIO.BCM)
 
     GPIO.setup(LED_PIN, GPIO.OUT) #set LED to OUTPUT mode
+    turnOffLed() #since LED is on by default
     GPIO.setup(buttonPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # set buttonPin to INPUT mode
 
 
-def sendDataToServer(distance, buttonPress, time):
+def sendDataToServer(distance, buttonPress):
+    now = datetime.now()
+    timeTo = now.strftime("%H%M%S")
     cursor.execute("""INSERT INTO Sensor_Data (motion_sensor, second_sensor, atTime) VALUES 
-                   ('%d', '%d', '%d');""" %(int(distance), buttonPress, time))
+                   ('%d', '%d', '%d');""" %(int(distance), buttonPress, int(timeTo)))
     #print out most recent data:
-    cursor.execute("""SELECT * FROM TableName WHERE id=(SELECT max(id) FROM TableName);""")
+    cursor.execute("""SELECT * FROM Sensor_Data WHERE id=(SELECT max(id) FROM Sensor_Data);""")
     result = cursor.fetchone()
     print('---SELECT---')
     [print(x) for x in result]
+    db.commit()
+
 
 def lightUpLed():
     GPIO.output(LED_PIN, GPIO.HIGH)
@@ -67,20 +73,26 @@ def stopBuzz():
 
 def Buzzer(distance):
     if distance > 0:
+        #print("buzzing")
         GPIO.output(buzzerPin, GPIO.HIGH)
     else:
         GPIO.output(buzzerPin, GPIO.LOW)
 
 
 def loop():
-    while (True):
+    #while(True):
+    for i in range(30):
         distance = getSonar()  # get distance
         buttonPress = GPIO.input(buttonPin)
         print("The distance is : %.2f cm" % (distance))
-        print("The buton is %s" % (str(buttonPress==GPIO.HIGH)))
+        print("The button is %s" % (str(buttonPress==GPIO.HIGH)))
+        #lightUpLed()
         Buzzer(distance)
-        sendDataToServer(distance, buttonPress, time)
+        sendDataToServer(distance, buttonPress)
         time.sleep(1)
+        
+        #turnOffLed()
+        #time.sleep(0.5)
 
 
 if __name__ == '__main__':  # Program entrance
