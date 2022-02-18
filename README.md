@@ -1,4 +1,5 @@
 # ece-140-midterm
+## Amber Szulc (A16241551)
 ## Mike Liu (A15409210)
 
 ## Tutorial 1
