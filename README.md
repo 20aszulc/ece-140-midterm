@@ -28,7 +28,7 @@ In order to test our project, you must load all of the files in ```./Midterm/```
 
 Once setup for the Raspberry Pi, MYSQL, and IDE is complete, the next task is to test whether the circuit is functioning properly. Please use the following schematic to wire the Raspberry Pi
 ![Lab 6 Schematic](./public/media/Lab_6_Schematic.png)
-Please note the GPIO pins that are specified in ```getSonar.py``` and wire according to the pin numbers
+Please note the GPIO pins that are specified in ```getSonar.py``` and wire according to the pin numbers:
 ``` python
 buttonPin = 22
 trigPin = 23
@@ -36,7 +36,31 @@ echoPin = 24
 buzzerPin = 6
 LED_PIN = 17
 ```
-. If you have other GPIO pin preferences please change them accordingly in ```getSonar.py```
+. If you have other GPIO pin preferences please change your pins ```getSonar.py```.
+Now, run getSonar.py and open the console. There should be an incoming data stream from the button state and ultrasonic sensor in the console. Try pressing the button and change the distance (of your hand) to the ultrasonic  sensor, the changes should be reflected on the datastream. If you decrease the distance to 0 on the ultrasonic sensor, the buzzer should start to sound. Something to note: if you don't want the buzzer to sound endlessly after 30 seconds, make sure the ultrasonic sensor is unobstructed as we only collect 30 seconds worth of data.
+If the ultrasonic sensor, button, and buzzer all work as described above, then that means the zero distance sensor is working properly. 
+
+Next, Ctrl+C on the console to kill ```getSonar.py``` to test the interactive website. Once ```getSonar.py``` has ended properly, run ```app.py```. You should see a line in the command console that says
+```
+Web server started on: http://0.0.0.0:6543
+```
+and a datastream output similar to when you ran ```getSonar.py```. This is because ```app.py``` is the script that sets up the website and allow for device interaction through ```getSonar.py``` reference. So, open Chromium (Web Browser), on the search bar type in ```localhost:6543```. A website that looks like this will appear.
+![Lab_6_Website](./public/media/Lab_6_Website.png)
+Try clicking on ```BuzzMe``` and ```Light up``` buttons. It will turn on the buzzer or LED, depending on which button you press. Now the two drop down menus will sort your collected data from MYSQL database when you ran ```app.py``` on the specified parameters listed on the website. Click ```Submit Search``` and the desired search result will be displayed below in:
+```
+ID:
+Motion Sensor:
+Button Press:
+Time:
+```
+You can also have both drop down menus active at the same time to get a search result. Try messing around with it.
+If you want to end the website, go to the console and CTRL+C like you did in ```getSonar.py```. This will ensure that the GPIO pins are freed correctly and will not cause a malfunction in the Pi with conflicting states.
+
+#### Possible Errors
+- "MYSQL_HOST" none error
+This error is typically caused by incorrect credentials to your MYSQL database. Our script loads a .env file with very certain parameters of username, password, host, and database name. So the ```credentials.env``` we uploaded WILL NOT WORK FOR YOU. Please make your own with the formated provdied by ```credentials.env```, that is why we provided the file. And name YOUR FILE ```.env```. 
+- No module named '<module name here>'
+Most likely you have not installed a library that you were supposed to. Please check on the start of each file and see if you have installed all of the pre-installed imported libraries.
 
 Demonstration to the the Raspberry Pi device:
 https://youtu.be/KNaq1svNrok
