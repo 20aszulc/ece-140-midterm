@@ -61,8 +61,10 @@ If you want to end the website, go to the console and CTRL+C like you did in ```
 
 #### Possible Errors
 - "MYSQL_HOST" none error
+
 This error is typically caused by incorrect credentials to your MYSQL database. Our script loads a .env file with very certain parameters of username, password, host, and database name. So the ```credentials.env``` we uploaded WILL NOT WORK FOR YOU. Please make your own with the formated provdied by ```credentials.env```, that is why we provided the file. And name YOUR FILE ```.env```. 
 - No module named '<module name here>'
+
 Most likely you have not installed a library that you were supposed to. Please check on the start of each file and see if you have installed all of the pre-installed imported libraries.
 
 Demonstration to the the Raspberry Pi device:
