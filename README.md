@@ -12,6 +12,7 @@ Tutorial 2 was a simple GPIO pin based device that would interface with the Rasp
 ## Challenge 1/ Midterm
 #### Summary
 ![Lab 6 Schematic](./public/media/Lab_6_Schematic.png)
+
 Above is our Lab 6 Schematic, it is an extension of the Tutorial 2 schematic with addition of a working LED and Buzzer (replaced by Piezzo Speaker in Schematic). For this Challenge we have three main file catagories working together in conjunction: website, database, and raspberry pi.
 
 #### Purpose of each File
@@ -29,6 +30,7 @@ In order to test our project, you must load all of the files in ```./Midterm/```
 
 Once setup for the Raspberry Pi, MYSQL, and IDE is complete, the next task is to test whether the circuit is functioning properly. Please use the following schematic to wire the Raspberry Pi
 ![Lab 6 Schematic](./public/media/Lab_6_Schematic.png)
+
 Please note the GPIO pins that are specified in ```getSonar.py``` and wire according to the pin numbers:
 ``` python
 buttonPin = 22
