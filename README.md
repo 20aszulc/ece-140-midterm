@@ -1,6 +1,6 @@
 # ece-140-midterm
-## Amber Szulc (A16241551)
-## Mike Liu (A15409210)
+### Amber Szulc (A16241551)
+### Mike Liu (A15409210)
 
 ## Tutorial 1
 ![Lab 5 Tutorial 3 on Pi](./public/media/Lab5Tutorial3.gif)
