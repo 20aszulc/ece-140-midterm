@@ -24,7 +24,19 @@ Raspberry Pi file(s) are the following: ```getSonar.py```
 The Raspberry Pi file(s) are the references and functions that will directly interact with the GPIO pins on the Raspberry Pi. ```getSonar.py``` is written with function defs that will carry out processes such as, turning on and off LED, turning and off buzzer, gather sensor data from ultrasonic sensor and button, and populate the corresponding data to the MYSQL table. 
 
 #### How to Test
-In order to test our project, you must load all of the files in ```./Midterm```
+In order to test our project, you must load all of the files in ```./Midterm/``` to your coding enviornment in the Raspberry Pi. Some libraries may need to be installed on a new Raspberry Pi, all libraries were used in prior labs, and MYSQL must be installed on the Pi. If MYSQL is not yet intalled on the Pi with Mariadb, please refer to [Tutorial 1: Setup Raspberry Pi](https://docs.google.com/document/d/1dpmIBfNe_0GEucv2xybTPxQJdKOX5EFjvQsj6BtVsFU/edit) and carry out instructions from there. Also if there is preferred IDE please install it as well.
+
+Once setup for the Raspberry Pi, MYSQL, and IDE is complete, the next task is to test whether the circuit is functioning properly. Please use the following schematic to wire the Raspberry Pi
+![Lab 6 Schematic](./public/media/Lab_6_Schematic.png)
+Please note the GPIO pins that are specified in ```getSonar.py``` and wire according to the pin numbers
+``` python
+buttonPin = 22
+trigPin = 23
+echoPin = 24
+buzzerPin = 6
+LED_PIN = 17
+```
+. If you have other GPIO pin preferences please change them accordingly in ```getSonar.py```
 
 Demonstration to the the Raspberry Pi device:
 https://youtu.be/KNaq1svNrok
