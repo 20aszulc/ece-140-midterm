@@ -76,7 +76,7 @@ def split_boxes(board, input_size=100):
 	rows = np.vsplit(board,9)
 	boxes = []
 	for r in rows:
-    	cols = np.hsplit(r,9)
+        cols = np.hsplit(r,9)
     	for box in cols:
         	bThresh = cv2.threshold(box, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
         	boxes.append(bThresh)
@@ -144,6 +144,7 @@ def get_plate(request):
     image_url = "sudoku_test.jpg"
     img = cv2.imread(image_url, 0)
     roiArray = detect_plate(img)
+    json_object["plate"] = roiArray
     return roiArray
 
 
