@@ -1,16 +1,33 @@
 #detects a number plate text
+import json
 from wsgiref.simple_server import make_server
 from pyramid.config import Configurator
 from pyramid.response import FileResponse
+import mysql.connector as mysql
+from dotenv import load_dotenv
+
+from datetime import datetime
+import os
 import cv2
 import numpy as np
 # JSON which maps photos to ID
+
+load_dotenv('credentials.env')
+
+ #Environment Variables
+db_host = os.environ['MYSQL_HOST']
+db_user = os.environ['MYSQL_USER']
+db_pass = os.environ['MYSQL_PASSWORD']
+db_name = os.environ['MYSQL_DATABASE']
+
 car_photos = [
  {"id":1, "img_src": "Arizona_47.jpg", "plate": "Test1"},
  {"id":2, "img_src": "Contrast.jpg", "plate": "Test2"},
  {"id":3, "img_src": "Delaware_Plate.png", "plate": "Test3"},
 ]
 
+
+"""
 def preprocessing(img):
     # Preprocessing
     # Add a Gaussian Blur to smoothen the noise
@@ -76,7 +93,7 @@ def split_boxes(board, input_size=100):
 	rows = np.vsplit(board,9)
 	boxes = []
 	for r in rows:
-        cols = np.hsplit(r,9)
+            cols = np.hsplit(r,9)
     	for box in cols:
         	bThresh = cv2.threshold(box, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
         	boxes.append(bThresh)
@@ -134,27 +151,70 @@ def get_text(img):
 
 #Read the images in grayscale.
 # If you feel the images are dark, modify them with cv2.normalize
+"""
+db = mysql.connect(host=db_host, user=db_user, passwd=db_pass, database=db_name)
+cursor = db.cursor()
+
+def sendDataToServer(id, plate, name):
+    now = datetime.now()  # current date and time
+    time = now.strftime("%H%M%S")
+    cursor.execute("""INSERT INTO car (id, namePlate, name, atTime) VALUES
+                   ('%d', '%s', '%s', '%d');""" %(id, plate.toString, name, int(time)))
+    db.commit()
+
 
 def get_plate(request):
+
     #gets entire line
-    idx = int(request.matchdict['photo_id']) - 1
-    json_object = json.loads(car_photos[idx])
+    idx = int(request.matchdict['plate_id']) - 1
+    json_object = (car_photos[idx])
     image_url = json_object["img_src"]
     print(image_url)
     image_url = "sudoku_test.jpg"
     img = cv2.imread(image_url, 0)
-    roiArray = detect_plate(img)
-    json_object["plate"] = roiArray
-    return roiArray
+    #roiArray = detect_plate(img)
+    # delete this following line latter
+    roiArray = ["4","7","1","7","3","2"]
+    json_object["plate"] = ''.join(roiArray)
+    id = int(request.matchdict['id'])
+    sendDataToServer(id, car_photos[idx]["plate"], car_photos[idx]["img_src"])
+    cursor.execute(
+        """SELECT id, namePlate, name, atTime 
+        FROM cars
+         WHERE '%d'==id""" % (id))
+    record = cursor.fetchone()
+    db.close()
+    # we return the value at the given index from car_photos
+    return set_record(record)
 
 
 # function to access data
 def get_photo(request):
+   print("hi photo")
    # post_id retrieves the value that is sent by the client
    # the -1 is needed because arrays are 0-indexed
    idx = int(request.matchdict['photo_id'])-1
-   # we return the value at the given index from car_photos
+   print(idx)
    return car_photos[idx]
+
+def set_record(record):
+  #if no record found, return error json
+  if record is None:
+    return {
+      'id': "error",
+      'name': "",
+      'licensePlate:': "",
+    }
+
+  #populate json with values
+  response = {
+    'id':           record[0],
+    'name':         record[1],
+    'licensePlate':        record[2],
+  }
+
+  return response
+
 
 def index_page(request):
    return FileResponse('index.html')
@@ -162,11 +222,6 @@ def index_page(request):
 # Main entrypoint
 if __name__ == '__main__':
     with Configurator() as config:
-        img = [1]
-        roiArray = detect_plate(img)
-        get_text(roiArray)
-
-
         # Create a route called home
         config.add_route('home', '/')
         # Bind the view (defined by index_page) to the route named ‘home’

@@ -15,7 +15,7 @@ function clicked() {
            // Set the value of the img_src attribute of the img tag
            // to the value received from the server
            let img = document.getElementById('image');
-           img.src = response['img_src'];
+           img.src = "images/"+response['img_src'];
        });
  }
 
@@ -33,11 +33,13 @@ function clicked() {
        .then(response=>response.json()) // Convert response to JSON
        // Run the anonymous function on the received JSON response
        .then(function(response) {
+            /*for(var key in response) {
+            document.getElementById(key).textContent
+               = key.toUpperCase() + ": " + "3"+response[key]
+          }*/
            // Set the value of the img_src attribute of the img tag
            // to the value received from the server
            let plate = document.getElementById('licensePlate');
-           img.innerText = response['plate'];
+           plate.innerText = "License: "+ response['plate'];
        });
- }
-
  }

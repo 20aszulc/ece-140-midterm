@@ -22,7 +22,7 @@ cursor.execute("USE Lab7")
 cursor.execute(
     """CREATE TABLE IF NOT EXISTS car(
     id integer NOT NULL AUTO_INCREMENT primary key,
-    numberPlate varchar(32),
+    namePlate varchar(32),
     name varchar(32),
     created_at  TIMESTAMP
     );
