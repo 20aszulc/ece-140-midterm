@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title> The Triton Gallery Part 2 </title>
+  </head>
+  <body>
+    <h3>The Triton Gallery Part 2</h3>
+    <label>Height</label>
+    <form>
+      <label for="aHeight">Choose an height:</label>
+      <select name="aHeight" id="aHeight">
+          <option>   </option>
+        <option value=150>150-160</option>
+        <option value=160>160-170</option>
+        <option value=170>170-180</option>
+        <option value=180>180-190</option>
+      </select>
+    </form>
+    <label>Age</label>
+    <form>
+        <label for="anAge">Choose an age:</label>
+        <select name="anAge" id="anAge">
+            <option> </option>
+          <option value=20>20-30</option>
+          <option value=30>30-40</option>
+          <option value=40>40-50</option>
+          <option value=50>50-60</option>
+          <option value=60>60-70</option>
+        </select>
+      </form>
+
+   <input type="button" value="Submit Search" onclick="age_range(); height_range();age_range();">
+    <input type=number value="1" max="5" min="1" id="textInput">
+   <input type="button" value="Price" onclick="click_price()">
+     <input type="button" value="Display" onclick="click_display()">
+   <img src="geisel.jpg" id="image">
+    <p id="price">$00</p>
+    <script type = "text/javascript" src="rest.js"></script>
+    <div>
+      <br>
+      <div id="error"></div>
+      <br>
+        <div id="id"> ID:  </div>
+      <div id="name"> NAME:  </div>
+      <div id="owner"> OWNER: </div>
+      <div id="height"> HEIGHT(cm): </div>
+      <div id="age"> Age: </div>
+    </div>
+    <script type="text/javascript" src="rest.js"></script>
+  </body>
+</html>
