@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import RPi.GPIO as GPIO
-from init_db import *
+from ece140midterm.init_db import *
 import time
 from datetime import datetime
 

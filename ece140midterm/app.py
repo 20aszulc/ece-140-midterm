@@ -2,7 +2,7 @@ from wsgiref.simple_server import make_server
 from pyramid.config import Configurator
 from pyramid.response import Response, FileResponse
 import mysql.connector as mysql
-from getSonar import *
+from ece140midterm.getSonar import *
 from datetime import datetime
 from dotenv import load_dotenv
 import os
