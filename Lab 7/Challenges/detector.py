@@ -155,18 +155,31 @@ def get_text(img):
 db = mysql.connect(host=db_host, user=db_user, passwd=db_pass, database=db_name)
 cursor = db.cursor()
 
-def sendDataToServer(id, plate, name):
-    now = datetime.now()  # current date and time
-    time = now.strftime("%H%M%S")
-    cursor.execute("""INSERT INTO car (id, namePlate, name, atTime) VALUES
-                   ('%d', '%s', '%s', '%d');""" %(id, plate.toString, name, int(time)))
+def editDataInServer(aname, aPlate):
+
+    db = mysql.connect(host=db_host, user=db_user, passwd=db_pass, database=db_name)
+    cursor = db.cursor()
+    cursor.execute("""
+       UPDATE car
+       SET namePlate=%s
+       WHERE name=%s
+    """, (aPlate, aname))
     db.commit()
+    '''
+    sql = "SELECT * FROM car;"
+    db.commit()
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    print('---SELECT---')
+    [print(x) for x in result]'''
 
 
 def get_plate(request):
-
+    db = mysql.connect(host=db_host, user=db_user, passwd=db_pass, database=db_name)
+    cursor = db.cursor()
     #gets entire line
     idx = int(request.matchdict['plate_id']) - 1
+    print("This is idx %d", idx)
     json_object = (car_photos[idx])
     image_url = json_object["img_src"]
     print(image_url)
@@ -175,18 +188,21 @@ def get_plate(request):
     #roiArray = detect_plate(img)
     # delete this following line latter
     roiArray = ["4","7","1","7","3","2"]
-    json_object["plate"] = ''.join(roiArray)
-    id = int(request.matchdict['id'])
-    sendDataToServer(id, car_photos[idx]["plate"], car_photos[idx]["img_src"])
+    plateJoin = ''.join(roiArray)
+    json_object["plate"] = plateJoin
+    print(json_object["plate"])
+    #id = int(request.matchdict['id'])
+    editDataInServer(json_object["img_src"], plateJoin)
     cursor.execute(
-        """SELECT id, namePlate, name, atTime 
-        FROM cars
-         WHERE '%d'==id""" % (id))
+        """SELECT id, namePlate, name, created_at 
+        FROM car
+         WHERE '%d'=id""" % (idx+1))
     record = cursor.fetchone()
+    print(record)
     db.close()
     # we return the value at the given index from car_photos
     return set_record(record)
-
+    #return roiArray;
 
 # function to access data
 def get_photo(request):
