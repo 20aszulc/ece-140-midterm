@@ -22,7 +22,7 @@ function clicked() {
  function getPlate(){
        // Get the current value from the text input box
    let plate_id = document.getElementById('textInput').value
-
+    //hi
    // This URL path is going to be the route defined in app.py
    let theURL='/plate/'+plate_id;
    // This logger is just to keep track of the function call.
@@ -33,13 +33,13 @@ function clicked() {
        .then(response=>response.json()) // Convert response to JSON
        // Run the anonymous function on the received JSON response
        .then(function(response) {
-            /*for(var key in response) {
+            for(var key in response) {
             document.getElementById(key).textContent
-               = key.toUpperCase() + ": " + "3"+response[key]
-          }*/
+               = key.toUpperCase() + ": " +response[key]
+          }
            // Set the value of the img_src attribute of the img tag
            // to the value received from the server
-           let plate = document.getElementById('licensePlate');
-           plate.innerText = "License: "+ response['plate'];
+           //let plate = document.getElementById('licensePlate');
+           //plate.innerText = "License: "+ response['plate'];
        });
  }
