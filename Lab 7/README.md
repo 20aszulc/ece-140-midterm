@@ -7,11 +7,25 @@
 First we connect arucam to usb of raspberry pi. Then import cv2 on it.
 Then run ISUSB and take a picture with your camera. Saving the image as test.jpg
 
+Presenting my wonderful Lab Partner, Amber Szulc:
+
+![test.jpeg](./Challenges/public/media/test.jpg)
+
 ## Tutorial 2
 
 Install pytesseract to extract text from an image. First blur filers gets out high frequency noise. Then binary threshold keeps edges. Inversion swithces black and white colors by subracting pixel intensity from max. Dilation enlarge fragments.
 Then we group together pixels with similar color by the largest 15 contouring groups. We approximate polygons by storing corners of polygons, then we shape them into a rectangle and rotate.
 Finally, we work on rextracting the image into a 9 by 9 block. Send box to pytesseract image string to get test.
+
+In order, Blur, Threshold, Inverted, Dilated:
+
+![Blur.png](./Tutorial_2/Blur.png)
+
+![Threshold.png](./Tutorial_2/Threshold.png)
+
+![Inverted.png](./Tutorial_2/Inverted.png)
+
+![Dilated.png](./Tutorial_2/Dilated.png)
 
 ## Challenge 1
 In this challenge we had to implement a car lisence plate detector with a RESTful website structure. The implementation of the website was not difficult, much of it was boiler plate or reusable code from previous labs, but we ran into a headway when it came down to image processing. Our image preproccessing was implemented from Tutorial 2, we only modified minor parts to it in order to get the format of our new lisence plates, which some plates were behaving strangely. Of our iterations and testing, plates would at times rotate or present a mirror image, worst was uncessary zoom to a character that we have not specified. Various thresholding and noise reducing algorithms were used but most of them are hacks and we thought is unsuitable in the theme of this assignment. In this part, most of our troubles came from Arizona_47.png, since the plate edges blend into the background on most Gaussian blurs we had to admit that the specific algorithm does not work well with a light background on a bright plate. The solution would be Canny Edge Detection, but that ran into a host of problems with OpenCV that we were unable to implement it correctly. As a result, we stuck with Gaussian blur, which does very well in contrast imaging as shown below.
@@ -59,6 +73,10 @@ As you can see from the previous three images, the Contrast and Delaware (though
 ![Blur1.png](./Challenges/public/media/Blur1.png)
 
 ![Threshold1.png](./Challenges/public/media/Threshold1.png)
+
+![Dilated1.png](./Challenges/public/media/Dilated1.png)
+
+The edges are pratically gone in the Thresholding and Dilated it is indiscernible.
 
 We really had three choices from there: call it and move on, manually draw a thick line around the plate for greater contrast, or use another algorithm. We tried using another algorithm but OpenCV started throwing errors about unaccessible files and so on, hence we were forced to give up. In the end we just had to move on to the other images.
 
