@@ -50,9 +50,12 @@ Greatest Delaware found for Arizona Plate:
 
 As you can see from the previous three images, the Contrast and Delaware (though a bit skewed) plates are very well cropped with clear numbers, but Arizona plate is no where close to the quality of the other two. The reason was stated previously, it was due to the choice of our blurring algorithm. It led us to blur the entire image and blend the plate into the background, since the edge of the plate had very low contrast with the light colored wall.
 
-![Blur1.png](./Challenges/public/media/Blur1.png)
 
 ![Arizonal_47.png](./Challenges/public/images/Arizona_47.jpg)
+
+![Blur1.png](./Challenges/public/media/Blur1.png)
+
+![Threshold1.png](./Challenges/public/media/Threshold1.png)
 
 We really had three choices from there: call it and move on, manually draw a thick line around the plate for greater contrast, or use another algorithm. We tried using another algorithm but OpenCV started throwing errors about unaccessible files and so on, hence we were forced to give up. In the end we just had to move on to the other images.
 
