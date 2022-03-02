@@ -40,12 +40,15 @@ We had to implement an if-then loop that would force swap the individual x and y
 After the implementation of the correct coordinate system, there were some success in the image crop. Though not all of it was smooth sailing.
 
 Greatest Contour found for Arizona Plate:
+
 ![Result1.png](./Challenges/public/media/Result1.png)
 
 Greatest Contrast found for Arizona Plate:
+
 ![Result2.png](./Challenges/public/media/Result2.png)
 
 Greatest Delaware found for Arizona Plate:
+
 ![Result3.png](./Challenges/public/media/Result3.png)
 
 As you can see from the previous three images, the Contrast and Delaware (though a bit skewed) plates are very well cropped with clear numbers, but Arizona plate is no where close to the quality of the other two. The reason was stated previously, it was due to the choice of our blurring algorithm. It led us to blur the entire image and blend the plate into the background, since the edge of the plate had very low contrast with the light colored wall.
