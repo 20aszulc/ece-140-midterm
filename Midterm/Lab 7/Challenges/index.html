@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <meta charset="utf-8">
+   <title> REST API with JS Demo </title>
+ </head>
+ <body>
+    <label >License Plate Number Search:</label><br><br>
+   <input type=number value="1" max="3" min="1" id="textInput">
+   <input type="button" value="Click me" onclick="clicked(); getPlate();">
+   <p>Please wait after each click to load plate</p>
+   <img src="images/sudoku_test.jpeg" id="image">
+
+
+    <p>Searched Data</p>
+      <div>
+      <br>
+      <div id="error"></div>
+      <br>
+        <div id="id"> ID:  </div>
+      <div id="name"> Name: </div>
+      <div id="licensePlate">License Plate: </div>
+    </div>
+
+
+
+    <script type = "text/javascript" src="/rest.js"></script>
+ </body>
+</html>
