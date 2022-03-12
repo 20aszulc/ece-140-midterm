@@ -7,7 +7,7 @@ cap=cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
-try:
+
     # Keep track of frames for debugging and image testing
     frames = 0
 
@@ -70,7 +70,7 @@ try:
    		 cv2.imwrite(f"./Frames/seg_{frames}.png", seg)
    		 
    	 else:
-   		 print(“no object in view”)
+   		 print("no object in view")
     # To stop video execution, track exception and exit
 except KeyboardInterrupt:
     print("Press Ctrl-C to terminate while statement")

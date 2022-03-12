@@ -15,9 +15,20 @@
 
 ## Tutorial 4
     Step motors send a seperate pulse for each step and con only take 1 step at a time. A motor is used to repeat the same rotations over and over. Hybrid motor type is the most used motor, and it has tooth stealed caps. Half stepping improves angle resolution. 4096 half steps in our stepper motor, taking 8.192 seconds for 1 full rotation. Use a 9v battery to create a breadboard that moves the motor and thus rotates the camera set up to it.
+    The larger the wait time, the longer the camera takes to move. The lower the wait time, the faster and smoother the movement is. Halfing the step increment reduces the torque and makes a smoother rotation
+    Best values:
+    kp = 0.03
+    kd = 0.001
+    ki = 0.001
 
 
 ## Tutorial 5
-    When the output depends on the input, this is a closed-loop system. However there is overshoot, just like when the heater turns on in a cold room, the heater takes time to heat the already 60 degree room. We decrease overshoot by controlling the amount of output instead of a binary on/off system. For example, the heater should produce more heat at 55F than the small amount it would produce at 60F to stay at 60. Also known as proportional, integral, deivative. Rise time is time taken to go from 10% to 90%, settling time is time to reach 5% of desired error. Overshoot is max the output of system goes above output. Proportional gain changes input in proportion to error of system. Derivative gain damps to reduce overshoot and oscillations. Integral gain reduces steady state error. Reduce proportional gain to prevent oscillaion. In the code, we calculate speed control by summing gain times error values. High error means we want to have smaller step time. Delta t is the derivative of error. Sum error iss area under error curve. Buffer makes sure that we are tracking more than 20 px outside senter of image. Best pid values.
+    When the output depends on the input, this is a closed-loop system. However there is overshoot, just like when the heater turns on in a cold room, the heater takes time to heat the already 60 degree room. We decrease overshoot by controlling the amount of output instead of a binary on/off system. For example, the heater should produce more heat at 55F than the small amount it would produce at 60F to stay at 60. Also known as proportional, integral, deivative. Rise time is time taken to go from 10% to 90%, settling time is time to reach 5% of desired error. Overshoot is max the output of system goes above output. Proportional gain changes input in proportion to error of system. Derivative gain damps to reduce overshoot and oscillations. Integral gain reduces steady state error. Reduce proportional gain to prevent oscillaion. In the code, we calculate speed control by summing gain times error values. High error means we want to have smaller step time. Delta t is the derivative of error. Sum error iss area under error curve. Buffer makes sure that we are tracking more than 20 px outside senter of image. Best pid values were the same ones given initally. 10x larger made it way off same with 10x smaller.
 
+## Challenge 1
+
+Goal objects:
+    Red and rectangular
+    Blue and rectangular
+    and green sphere
 

@@ -9,27 +9,29 @@ load_dotenv('credentials.env') # Loads all details from the "credentials.env"
 db_host = os.environ['MYSQL_HOST']
 db_user = os.environ['MYSQL_USER']
 db_pass = os.environ['MYSQL_PASSWORD']
-db_base = os.environ['MYSQL_DATABASE']
+#db_base = os.environ['MYSQL_DATABASE']
 
 db = mysql.connect(
   host= db_host,
   user=db_user,
   password=db_pass,
-  base = db_base
+  #base = db_base
 )
 
 cursor = db.cursor()
-cursor.execute("CREATE DATABASE IF NOT EXISTS Lab5;")
+cursor.execute("CREATE DATABASE IF NOT EXISTS Lab8;")
 cursor.execute("USE Lab8")
 
-cursor.execute("DROP table if exists students")
+cursor.execute("DROP table if exists objects")
+cursor.execute("DROP table if exists found_objects")
 
 cursor.execute(
     """CREATE TABLE if NOT EXISTS objects(
     id integer NOT NULL AUTO_INCREMENT primary key,
+    name varchar(32),
     color_range_values varchar(32),
     size varchar(32),
-    countours varchar(32),
+    contour varchar(32),
     created_at  TIMESTAMP
     );
 """)
@@ -38,8 +40,8 @@ cursor.execute(
     """CREATE TABLE if NOT EXISTS found_objects(
     id integer NOT NULL AUTO_INCREMENT primary key,
     object_name varchar(32),
+    object_name_value varchar(32),
     address varchar(32),
-    created_at  TIMESTAMP
     );
 """)
 
@@ -49,23 +51,26 @@ for x in my_result:
   print(x)
 
 #INSERT VALUES
-query = 'INSERT INTO students (name, email, password, age, created_at) VALUES (%s, %s, %s, %s, %s)'
-values = [('Bart', 'bart@fox.com', 'bartman', '10',  '2022-02-11 12:36:09'),
-         ('Lisa', 'lisa@fox.com', 'vegan', '8',  '2022-02-01 04:23:00'),
-         ('Mona', 'mona@vox.com', 'Start#*up', '78', '2022-02-01 04:41:00')
+query = 'INSERT INTO objects(name, color_range_values, size, contour) VALUES (%s, %s, %s, %s)'
+values = [('Mouse', 'BLUE', 'bartman', '10'),
+         ('Toothbrush Holder', 'RED', 'vegan', '8'),
+         ('Tennis Ball', 'GREEN', 'Startup', '78')
          ]
 cursor.executemany(query,values)
 db.commit()
+
+
 
 print('---INSERT---')
 print(cursor.rowcount, "record(s) inserted")
 
 # BASIC SELECT
-cursor.execute('SELECT * from students ORDER BY age;')
+cursor.execute('SELECT * from objects ORDER BY name;')
 my_result = cursor.fetchall()
 print('---SELECT---')
 [print(x) for x in my_result]
- 
+
+'''' 
 # BASIC UPDATE
 sql = "UPDATE students SET age = 39 WHERE name = 'Bart';"
 cursor.execute(sql)
@@ -78,3 +83,5 @@ cursor.execute(sql)
 result = cursor.fetchall()
 print('---SELECT---')
 [print(x) for x in result]
+
+'''

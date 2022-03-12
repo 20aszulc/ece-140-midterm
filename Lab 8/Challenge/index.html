@@ -2,65 +2,47 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title> HARDWARE MIDTERM</title>
+    <title> Lab 8</title>
 
 
       <link type="text/css" rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h3>Hardware Midterm</h3>
+    <h3> Lab 8</h3>
 
-    <input type="button" value="BuzzMe" onclick="click_buzz()">
-      <input type="button" value="Light Up" onclick="click_led()">
+    <!--<input type="button" value="BuzzMe" onclick="click_buzz()">
+      <input type="button" value="Light Up" onclick="click_led()">-->
 
-     <label>A Few Seconds to Choose A Data Input</label>
+     <label>Objects from Object Table</label>
     <form>
-      <label for="aTimeRank">Get a sensor input in the most recent seconds</label>
-      <select name="aTimeRank" id="aTimeRank">
+      <label for="objectChosen"></label>
+      <select name="objectChosen" id="objectChosen">
           <option value="">   </option>
-        <option value=1>1</option>
-        <option value=2>2</option>
-        <option value=3>3</option>
+        <option value=1>Mouse</option>
+        <option value=2>Toothbrush Holder</option>
+        <option value=3>Tennis Ball</option>
       </select>
     </form>
-    <label>Furthest Distances</label>
-    <form>
-        <label for="aDistance">Top distances</label>
-        <select name="aDistance" id="aDistance">
-            <option> </option>
-          <option value=1>1</option>
-          <option value=2>2</option>
-          <option value=3>3</option>
-            <option value=4>4</option>
-            <option value=5>5</option>
-        </select>
-      </form>
 
-     <input type="button" value="Submit Search" onclick="distance_range(); time_rank();distance_range();">
+     <input type="button" value="Submit Search" onclick="find_object()">
+    <input type="button" value="Store Location" onclick="store_location()">
 
 
-    <p>Searched Data</p>
+    <p>Object</p>
       <div>
       <br>
       <div id="error"></div>
       <br>
         <div id="id"> ID:  </div>
-      <div id="motion_sensor"> Motion Sensor:  </div>
-      <div id="button_press"> Button Press: </div>
-      <div id="time"> Time: </div>
+      <div id="name"> Name:  </div>
+      <div id="color_range"> Color Range: </div>
+      <div id="contour"> Contour: </div>
+      <div id="size"> Size: </div>
+        <b><div id="coordinates">Coordinates: </div></b>
     </div>
 
-    <p>Most Recent</p>
-      <div>
-      <br>
-      <div id="error2"></div>
-      <br>
-        <div id="id2"> ID:  </div>
-      <div id="motion_sensor2"> Motion Sensor:  </div>
-      <div id="button_press2"> Button Press: </div>
-      <div id="time2"> Time: </div>
-    </div>
+    <script type="text/javascript" src="rest.js"> </script>
+  <p id="object_list"></p>
 
-    <script type="text/javascript" src="rest.js"></script>
   </body>
 </html>
