@@ -8,10 +8,14 @@ from pyramid.response import FileResponse
 import mysql.connector as mysql
 from dotenv import load_dotenv
 import PID
+#import PID1
+from geopy.geocoders import Nominatim
 from datetime import datetime
 import os
 import cv2
 import numpy as np
+
+#make sure to install geopy
 
 # This is used to render response through a JSON to the front-end
 from pyramid.renderers import render_to_response
@@ -30,12 +34,24 @@ db_pass = os.environ['MYSQL_PASSWORD']
 db_name = "Lab8"#os.environ['MYSQL_DATABASE']
 
 
-def get_coordinates(name1, color_range, contour, size):
+def get_coordinates(name1, color_range, contour, size, longitude, latitude):
   db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
   cursor = db.cursor()
   #figure out address by importing and rundding pid controller
   address1 = PID.run_pid(name1, color_range, contour, size)
-  #address1 = "figure me out"
+  print(address1)
+  #if object is not in camera's view, then coordinates cannot be found
+  if address1 is "object not in view":
+    return address1
+
+  #else we print out the coordinates and geolocation put it in the table
+  #Geolocation
+  geoLoc = Nominatim(user_agent="GetLoc")
+  address_actual = longitude + "," + latitude
+  locname = geoLoc.reverse(address_actual)
+  # printing the address/location name
+  print("Location "+locname.address)
+  address_actual = address_actual + " at " + locname.address
 
   #this puts the object and its address into found objects sql table
   print(name1)
@@ -57,17 +73,24 @@ def get_coordinates(name1, color_range, contour, size):
     print(record)
   print("out of loop")
   query = 'INSERT INTO found_objects(object_name, object_name_value, address) VALUES (%s, %s, %s)'
-  values = (saved_name, value, address1)
+  values = (saved_name, value, address_actual)
   cursor.execute(query, values)
   db.commit()
 
+
+
   #this returns the coordinates of object to be shown on index
-  return address1
+  return address_actual
 
 ''' Instance Route to GET object rank '''
 def object_rank(req):
   # Retrieve the route argument (this is not GET/POST data!)
   the_id = req.matchdict['object_rank_id']
+  #get longitude and latitude
+  longitude = str(req.matchdict.get('longitude_id', None))
+  latitude = str(req.matchdict.get('latitude_id', None))
+  print("This is longitude: ")
+  print(longitude+","+latitude)
 
   # Connect to the database and retrieve the object
   db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
@@ -78,7 +101,9 @@ def object_rank(req):
   if record is None:
     return ""
   else:
-    coordinates = get_coordinates(str(record[1]), str(record[2]), str(record[3]), str(record[4]))
+    coordinates = get_coordinates(str(record[1]), str(record[2]), str(record[3]), str(record[4]), longitude, latitude)
+  print("The coordinates")
+  print(coordinates)
   # Format the result as key-value pairs
   response = {
 	'id':     	record[0],
@@ -98,7 +123,7 @@ def store_location(req):
   #retrieve info to post on website and in console
   cursor.execute('SELECT * from found_objects ORDER BY id;')
   my_result = cursor.fetchall()
-  records = "---SELECT---"
+  records = "---This is the found_objects table\'s contents---<br>"
   print('---This is the found_objects table\'s contents---<br>') #post found_objects info in console
   [print(x) for x in my_result]
   for x in my_result:
@@ -127,7 +152,7 @@ if __name__ == '__main__':
     config.add_route('store_location', '/store_location')
     config.add_view(store_location, route_name='store_location', renderer='json')
 
-    config.add_route('object_rank', '/object_rank/{object_rank_id}')
+    config.add_route('object_rank', '/object_rank/{object_rank_id}/{longitude_id}/{latitude_id}')
     config.add_view(object_rank, route_name='object_rank', renderer='json')
 
  	# For our static assets!

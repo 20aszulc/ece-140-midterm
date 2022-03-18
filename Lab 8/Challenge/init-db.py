@@ -41,7 +41,7 @@ cursor.execute(
     id integer NOT NULL AUTO_INCREMENT primary key,
     object_name varchar(32),
     object_name_value varchar(32),
-    address varchar(32)
+    address varchar(128)
     );
 """)
 
