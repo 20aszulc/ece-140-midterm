@@ -27,8 +27,7 @@ When the output depends on the input, this is a closed-loop system. However ther
 
 ## Challenge 1
 
-# OUR VIDEO Link: https://drive.google.com/file/d/1EToyMqTammZyLOHuykHETUBwuNXnadvI/view?usp=sharing
-# our youtube link:
+Our Youtube link: https://youtu.be/aOOwQ2KYx7I
 
 Goal objects:
 1) Red and rectangular
@@ -42,29 +41,29 @@ found object that was found and added to the table. If coordinates were not foun
 
 1
 We created object sql Table:
-![image]('./Images/Challenge_1/8_1_object_sql_table.PNG')
+![8_1_object_sql_table.PNG](./Images/Challenge_1/8_1_object_sql_table.PNG)
 
 2
 This is the user interface with names of objects:
-![image](./Images/Challenge_1/8_1_2_create_user_interface.PNG)
+![8_1_2_create_user_interface.PNG](./Images/Challenge_1/8_1_2_create_user_interface.PNG)
 
 This is when user does not choose an object from interface
-![image](./Images/Challenge_1/8_1_submit_no_object_added.PNG)
+![8_1_submit_no_object_added.PNG](./Images/Challenge_1/8_1_submit_no_object_added.PNG)
 
 3-5 are in the video. 3 hsv colors and other table attributes show up on
 the html page here:
-![image](./Images/Challenge_1/8_1_submit_working.PNG)
+![8_1_submit_working.PNG](./Images/Challenge_1/8_1_submit_working.PNG)
 4 of camera move side to side:
-![](./Images/Challenge_1/cameraTurn.gif)
+![cameraTurn.gif](./Images/Challenge_1/cameraTurn.gif)
 
 6
 This is the display gps coordinates with GEOCASHING
-![image](./Images/Challenge_1/8_1_coordinate_return_w_geocashe.PNG)
+![8_1_coordinate_return_w_geocashe.PNG](./Images/Challenge_1/8_1_coordinate_return_w_geocashe.PNG)
 
 7
 This is the store location part in found_objects and returns the contents of 
 found objects when store location button is pressed
-![image](./Images/Challenge_1/8_1_submit_working.PNG)
+![8_1_submit_working.PNG](./Images/Challenge_1/8_1_submit_working.PNG)
 This also shows how to append a number object_name_value
 
 
