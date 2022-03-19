@@ -27,7 +27,8 @@
 
 ## Challenge 1
 
-# OUR VIDEO Link: 
+# OUR VIDEO Link: https://drive.google.com/file/d/1EToyMqTammZyLOHuykHETUBwuNXnadvI/view?usp=sharing
+# our youtube link:
 
 Goal objects:
 1) Red and rectangular
@@ -35,7 +36,9 @@ Goal objects:
 3) and green sphere
 
 
-We used geocashing to get the location of the object using latitude and longitude. This is done in the get_coordinates function. Please make sure to pip install geopy. We show the entire found_objects table on the webpage itself and is shown and updated when the store location button is clicked. The project requires a green tennis ball, a red toothpaste cylinder, and a blue mouse. The hardware for GPS coordinates did not work so we had to use js to get and return coordinates. You will need access to the internet 
+We used geocashing to get the location of the object using latitude and longitude. This is done in the get_coordinates function. Please make sure to pip install geopy. We show the entire found_objects table on the webpage itself and is shown and updated when the store location button is clicked. The project requires a green tennis ball, a red toothpaste cylinder, and a blue mouse. The hardware for GPS coordinates did not work so we had to use js to get and return coordinates. You will need access to the internet for that portion. We successfuly added coordinates to webpage
+and to sql found objects table along with camera paning to objects, detecting objects, create a rest route, and adding values to every new 
+found object that was found and added to the table. If coordinates were not found, aka object wasn't found they were not added to found objects and it said object was not found in the table list, but rest of attributes like color and contour existed
 
 1
 We created object sql Table:
@@ -43,22 +46,29 @@ We created object sql Table:
 
 2
 This is the user interface with names of objects:
-![image](./Images/Challenge_1\8_1_2_create_user_interface.PNG)
+![image](./Images/Challenge_1/8_1_2_create_user_interface.PNG)
+
+This is when user does not choose an object from interface
+![image](./Images/Challenge_1/8_1_submit_no_object_added.PNG)
 
 3-5 are in the video. 3 hsv colors and other table attributes show up on
 the html page here:
-![image](Lab 8\Images\Challenge_1\8_1_submit_working.PNG)
-
+![image](./Images/Challenge_1/8_1_submit_working.PNG)
+4 of camera move side to side:
+![](./Images/Challenge_1/cameraTurn.gif)
 
 6
 This is the display gps coordinates with GEOCASHING
-![image](Lab 8\Images\Challenge_1\8_1_coordinate_return_w_geocashe.PNG)
+![image](Lab 8/Images/Challenge_1/8_1_coordinate_return_w_geocashe.PNG)
 
 7
 This is the store location part in found_objects and returns the contents of 
 found objects when store location button is pressed
-![image](Lab 8\Images\Challenge_1\8_1_submit_working.PNG)
-This shows how to append a number object_name_value
+![image](Lab 8/Images/Challenge_1/8_1_submit_working.PNG)
+This also shows how to append a number object_name_value
+
+
+
 
 
 
