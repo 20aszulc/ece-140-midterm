@@ -1,3 +1,7 @@
+# Lab 8 ECE 140A
+### Amber Szulc (A16241551)
+### Mike Liu (A15409210)
+
 ## Tutorial 1
 Using CAD software, we created a mount to hold the camera. We had to extrude the central cylinder and negate the a center elpise and two off center cirlces for the motor axis and screws. We used m3 screws for the camera mount and the 3D part so the camera can move in accordance to the motor.
 
@@ -24,6 +28,9 @@ ki = 0.001
 
 ## Tutorial 5
 When the output depends on the input, this is a closed-loop system. However there is overshoot, just like when the heater turns on in a cold room, the heater takes time to heat the already 60 degree room. We decrease overshoot by controlling the amount of output instead of a binary on/off system. For example, the heater should produce more heat at 55F than the small amount it would produce at 60F to stay at 60. Also known as proportional, integral, deivative. Rise time is time taken to go from 10% to 90%, settling time is time to reach 5% of desired error. Overshoot is max the output of system goes above output. Proportional gain changes input in proportion to error of system. Derivative gain damps to reduce overshoot and oscillations. Integral gain reduces steady state error. Reduce proportional gain to prevent oscillaion. In the code, we calculate speed control by summing gain times error values. High error means we want to have smaller step time. Delta t is the derivative of error. Sum error is area under error curve. Buffer makes sure that we are tracking more than 20 px outside senter of image. Best PID values were the same ones given initally. 10x larger made it way off same with 10x smaller.
+
+For Tutorial 5 these are the attempts at tracking the red object (we had a red can in our case) and this is what our masking outputs as.
+![ec140a_lab7_tutorial5.PNG](./Images/Tutorial_5/ec140a_lab7_tutorial5.PNG)
 
 ## Challenge 1
 
