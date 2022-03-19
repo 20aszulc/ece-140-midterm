@@ -3,7 +3,7 @@ import os                       # Used to import environment data
 from dotenv import load_dotenv  # Used to load data from .env file
 
 
-load_dotenv('credentials.env') # Loads all details from the "credentials.env"
+load_dotenv() # Loads all details from the "credentials.env"
 
 ''' Environment Variables '''
 db_host = os.environ['MYSQL_HOST']
@@ -41,7 +41,7 @@ cursor.execute(
     id integer NOT NULL AUTO_INCREMENT primary key,
     object_name varchar(32),
     object_name_value varchar(32),
-    address varchar(128)
+    address varchar(300)
     );
 """)
 
@@ -52,9 +52,9 @@ for x in my_result:
 
 #INSERT VALUES
 query = 'INSERT INTO objects(name, color_range_values, size, contour) VALUES (%s, %s, %s, %s)'
-values = [('Mouse', 'BLUE', 'bartman', '10'),
-         ('Toothbrush Holder', 'RED', 'vegan', '8'),
-         ('Tennis Ball', 'GREEN', 'Startup', '78')
+values = [('Mouse', 'BLUE', 'Oval', '10'),
+         ('Toothbrush Holder', 'RED', 'Rectangle', '8'),
+         ('Tennis Ball', 'GREEN', 'Cirlce', '5')
          ]
 cursor.executemany(query,values)
 db.commit()
