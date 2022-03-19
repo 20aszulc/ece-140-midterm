@@ -32,12 +32,13 @@ var y = document.getElementById("Longitude");
     console.log(object_rank_id)
     let latitude = document.getElementById("Latitude").innerHTML;
     let longitude = document.getElementById("Longitude").innerHTML;
+    console.log("This is latitude"+latitude)
     if(object_rank_id === "" || longitude ==="") {
       console.log("No ID provided");
       document.getElementById("error").textContent = "You have not provided an object ID";
     }
     else {
-      let theURL = '/object_rank/'+object_rank_id+'/'+ latitude+'/'+longitude;
+      let theURL = '/object_rank/'+object_rank_id+'/'+ String(latitude)+'/'+String(longitude);
       console.log(theURL);
       console.log("Starting executing single id");
       document.getElementById("error").textContent = "";

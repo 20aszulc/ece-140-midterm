@@ -24,7 +24,7 @@ import mysql.connector as mysql
 import os
 from dotenv import load_dotenv
 
-load_dotenv('credentials.env') # Loads all details from the "credentials.env"
+load_dotenv() # Loads all details from the "credentials.env"
 
 
 ''' Environment Variables '''
@@ -41,17 +41,18 @@ def get_coordinates(name1, color_range, contour, size, longitude, latitude):
   address1 = PID.run_pid(name1, color_range, contour, size)
   print(address1)
   #if object is not in camera's view, then coordinates cannot be found
-  if address1 is "object not in view":
+  if address1 == "object not in view":
+    print(address1)
     return address1
-
+  print("object was in view"+address1)
   #else we print out the coordinates and geolocation put it in the table
   #Geolocation
-  geoLoc = Nominatim(user_agent="GetLoc")
+  #geoLoc = Nominatim(user_agent="GetLoc")
   address_actual = longitude + "," + latitude
-  locname = geoLoc.reverse(address_actual)
+  #locname = geoLoc.reverse(address_actual)
   # printing the address/location name
-  print("Location "+locname.address)
-  address_actual = address_actual + " at " + locname.address
+  #print("Location "+locname.address)
+  #address_actual = address_actual + " at " + locname.address
 
   #this puts the object and its address into found objects sql table
   print(name1)
@@ -60,14 +61,15 @@ def get_coordinates(name1, color_range, contour, size, longitude, latitude):
   saved_name = name1
       #if name already exists make it nameN where N is a number
   while record is not None:
-    if value is not 0:
+    value = value + 1
+    if value != 1:
       cursor.execute("Select * from found_objects where object_name= %s", (name1+str(value),))
       record = cursor.fetchone()
       saved_name =name1+str(value)
     else:
       cursor.execute("Select * from found_objects where object_name = %s", (name1,))
       record = cursor.fetchone()
-    value = value + 1
+    
     print("value"+str(value))
     db.commit()
     print(record)
@@ -132,7 +134,7 @@ def store_location(req):
   return records
 
 def get_home(req):
-  return FileResponse('index.html')
+  return FileResponse('./Challenge/index.html')
 
 
 ''' Route Configurations '''
